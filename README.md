@@ -57,5 +57,3 @@ git commit -m "Initial commit"
 
 # Push to Azure
 git push azure main
-
-https://None@screen-capture-server.scm.azurewebsites.net/screen-capture-server.git
