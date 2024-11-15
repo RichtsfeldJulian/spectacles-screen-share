@@ -2,35 +2,30 @@
 export class ScreenViewer extends BaseScriptComponent {
   @input
   remoteServiceModule: RemoteServiceModule;
-    
-    @input
-    image: Image;
+
+  @input
+  image: Image;
 
   private remoteMediaModule: RemoteMediaModule = require("LensStudio:RemoteMediaModule");
 
-  private updateInterval: number = 100; // Poll every 100ms
+  private updateInterval: number = 0.3; // Poll every 1s
   private isLoading: boolean = false;
   private updateEvent = this.createEvent("UpdateEvent");
-    private sumDeltaTime: number;
-
-
+  private sumDeltaTime: number;
 
   onAwake() {
     this.updateEvent.bind((eventData) => {
-
-        this.sumDeltaTime += eventData.getDeltaTime();
-
+      this.sumDeltaTime += eventData.getDeltaTime();
 
       if (this.isLoading || this.sumDeltaTime < this.updateInterval) {
         return;
       }
       this.isLoading = true;
       this.sumDeltaTime = 0;
-      
 
       // Create HTTP request
       const httpRequest = RemoteServiceHttpRequest.create();
-      httpRequest.url = "http://localhost/screen.jpg";
+      httpRequest.url = "https://screen-capture-server.azurewebsites.net/screen/pc.jpg";
       httpRequest.method = RemoteServiceHttpRequest.HttpRequestMethod.Get;
 
       // Perform the HTTP request
@@ -43,7 +38,7 @@ export class ScreenViewer extends BaseScriptComponent {
             textureResource,
             (texture) => {
               // Assign texture to a material
-              this.image.mainPass.baseTex = texture;             
+              this.image.mainPass.baseTex = texture;
             },
             (error) => {
               print("Error loading image texture: " + error); // Print an error message if loading fails

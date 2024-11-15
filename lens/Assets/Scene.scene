@@ -5317,7 +5317,7 @@
     {}
   ScriptInputs:
     "":
-      _distance: !<float> 2.000000
+      _distance: 2.500000
       _xzEnabled: true
       _xzEasing: !<float> 1.000000
       _yEnabled: true
